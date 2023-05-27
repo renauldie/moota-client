@@ -13,7 +13,7 @@ class SynchronizeMoota extends Command
 
     public function handle()
     {
-        $accounts = AccountNumber::where('status', 'active')->get();
+        $accounts = AccountNumber::where('is_active', '1')->get();
     
         foreach ($accounts as $acc) {
             $acc->is_active = '0';
@@ -21,5 +21,16 @@ class SynchronizeMoota extends Command
         }
 
         $this->info('User statuses updated successfully.');
+    }
+
+    public function handle_acount() {
+        $accounts = AccountNumber::where('is_active', '1')->get();
+
+        foreach ($accounts as $acc) {
+            $acc->is_active = '0';
+            $acc->save();
+        }
+
+        
     }
 }
