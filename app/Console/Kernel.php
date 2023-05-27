@@ -4,20 +4,29 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
-    protected function schedule(Schedule $schedule): void
+    // protected function schedule(Schedule $schedule): void
+    // {
+    //     // $schedule->command('inspire')->hourly();
+    // }
+
+    protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('inspire')->hourly();
+
+        // Masukkan Kode Anda Disini
+        // $schedule->call(function () {
+        //     Log::info('Cronjob berhasil dijalankan');
+        // })->everyMinute();
+        $schedule->command('app:synchronize-moota')
+                    ->everyMinute()        
+                    ->appendOutputTo(storage_path('logs/scheduler.log'));
+
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
