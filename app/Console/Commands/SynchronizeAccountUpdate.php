@@ -19,7 +19,10 @@ class SynchronizeAccountUpdate extends Command
 
     public function handle(): void
     {
-        $accounts = AccountNumber::all()->take(1000)->where('sch_status', 0);
+        $accounts = AccountNumber::with(['account_response.detail'])
+            ->take(1000)
+            ->where('sch_status', 5)
+            ->get();
         // get endpoint
         $endpoint = Parameter::where('name', 'URL_MOOTA')->first();
         // dd($endpoint->values);
@@ -30,7 +33,7 @@ class SynchronizeAccountUpdate extends Command
                 continue;
             }
 
-            $url = $endpoint->values.'/bank/store';
+            $url = $endpoint->values.'/bank/update/'.$account->account_response->detail->bank_id;
 
             $reqBody = Http::post($url, [
                 'corporate_id' => $account->corporate_id,

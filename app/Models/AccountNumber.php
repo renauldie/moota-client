@@ -17,4 +17,8 @@ class AccountNumber extends Model
     protected $hidden =[
 
     ];
+
+    public function account_response(){
+        return $this->hasOne(AccountNumberResponse::class, 'account_id', 'id');
+    }
 }

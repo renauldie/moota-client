@@ -13,7 +13,8 @@ class AccountNumberResponse extends Model
         'balance_before', 'balance', 'account_id'
     ];
 
-    // protected $hidden =[
-    //     'created_at', 'updated-at'
-    // ];
+    public function detail()
+    {
+        return $this->hasOne(AccountNumberResponseDetail::class, 'account_number_response_id');
+    }
 }

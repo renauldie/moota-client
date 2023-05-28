@@ -21,7 +21,15 @@ class SynchronizeAccountDestroy extends Command
     {
         $this->info('User has been destroyed successfully.');
    
-        $accounts = AccountNumber::all()->take(1000)->where('sch_status', 0);
+        // 0 create
+        // 1 read from moota
+        // 7 destroy
+        // 5 update
+        $accounts = AccountNumber::with(['account_response.detail'])
+            ->take(1000)
+            ->where('sch_status', 7)
+            ->get();
+
         // get endpoint
         $endpoint = Parameter::where('name', 'URL_MOOTA')->first();
         // dd($endpoint->values);
@@ -32,16 +40,16 @@ class SynchronizeAccountDestroy extends Command
                 continue;
             }
 
-            $url = $endpoint->values.'/bank/store';
+            $url = $endpoint->values.'/bank'.$account->account_response->detail->bank_id.'/destroy';
 
-            $reqBody = Http::post($url, [
-                'corporate_id' => $account->corporate_id,
-                'bank_type' => $account->bank_type,
-                'username' => $account->username,
-                'password' => $pass,
-                'name_holder' => $account->name_holder,
-                'is_active' => $account->is_active,
-            ]);
+            // $reqBody = Http::post($url, [
+            //     'corporate_id' => $account->corporate_id,
+            //     'bank_type' => $account->bank_type,
+            //     'username' => $account->username,
+            //     'password' => $pass,
+            //     'name_holder' => $account->name_holder,
+            //     'is_active' => $account->is_active,
+            // ]);
 
             Log::info('check account '.$account->name_holder);
 
@@ -49,61 +57,15 @@ class SynchronizeAccountDestroy extends Command
             // $response = Http::withHeaders([
             //     'Authorization' => 'Bearer {your_token}',
             //     'Content-Type' => 'application/json',
-            // ])->post($url, [
-            //     $reqBody
-            // ]);
+            // ])->post($url);
 
             // no headers
-            $response = Http::post($url, [
-                $reqBody
-            ]);
+            $response = Http::post($url);
 
             // save to db
             if ($response->successful()) {
                 Log::info($account->name_holder.'ok'.$response->successful());
                 $data = $response->json();
-
-                // dd($bank);
-                $accresp = [
-                    'balance_before' => $data['balance_before'],
-                    'balance' => $data['balance'],
-                    'account_id' => $account->id
-                ];
-
-                // save balance to db
-                $accrespdata = AccountNumberResponse::create($accresp);
-
-                $bank = $data['bank'];
-                $accrespdtl = [
-                    'account_number_response_id' => $accrespdata->id
-                    ,'corporate_id' => $bank['corporate_id']
-                    ,'username' => $bank['username']
-                    ,'atas_nama' => $bank['atas_nama']
-                    ,'balance' => $bank['balance']
-                    ,'account_number' => $bank['account_number']
-                    ,'bank_type' => $bank['bank_type']
-                    ,'pkg' => $bank['pkg'] ? $bank['pkg'] : null
-                    ,'login_retry' => $bank['login_retry']
-                    ,'date_from' => $bank['date_from']
-                    ,'date_to' => $bank['date_to']
-                    ,'meta' => $bank['meta'] ? $bank['meta'] : null
-                    ,'interval_refresh' => $bank['interval_refresh']
-                    ,'next_queue' => $bank['next_queue']
-                    ,'is_active' => $bank['is_active']
-                    ,'in_queue' => $bank['in_queue']
-                    ,'in_progress' => $bank['in_progress']
-                    ,'is_crawling' => $bank['is_crawling']
-                    ,'recurred_at' => $bank['recurred_at']
-                    ,'created_at' => $bank['created_at']
-                    ,'token' => $bank['token']
-                    ,'bank_id' => $bank['bank_id']
-                    ,'label' => $bank['label']
-                    ,'last_update' => $bank['last_update']
-                    ,'icon' => $bank['icon']
-                ];
-
-                // dd($accrespdtl);
-                AccountNumberResponseDetail::create($accrespdtl);
 
                 // update status_sch
                 $account->sch_status = 1;
