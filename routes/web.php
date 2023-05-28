@@ -1,5 +1,7 @@
 <?php
 ;
+
+use App\Http\Controllers\MootaIntegrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +19,3 @@ Route::middleware([
     
     Route::resource('account', App\Http\Controllers\AccountNumberController::class);
 });
-

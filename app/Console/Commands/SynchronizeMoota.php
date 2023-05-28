@@ -30,7 +30,5 @@ class SynchronizeMoota extends Command
             $acc->is_active = '0';
             $acc->save();
         }
-
-        
     }
 }

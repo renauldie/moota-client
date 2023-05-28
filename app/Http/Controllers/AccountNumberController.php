@@ -6,6 +6,7 @@ use App\Http\Requests\AccStoreRequest;
 use App\Models\AccountNumber;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 
 class AccountNumberController extends Controller
@@ -25,7 +26,11 @@ class AccountNumberController extends Controller
 
     public function store(AccStoreRequest $request)
     {
-        AccountNumber::create($request->validated());
+        $data = $request->all();
+        $encryptedValue = Crypt::encrypt($data['password']);
+        $data['password'] = $encryptedValue;
+        $request['corporate_id'] = $request['corporate_id'] ? $request['corporate_id'] :'';
+        AccountNumber::create($data);
 
         return redirect()->route('account.index');
     }
@@ -43,6 +48,7 @@ class AccountNumberController extends Controller
 
     public function update(AccStoreRequest $request, AccountNumber $account)
     {
+        $request['corporate_id'] = $request['corporate_id'] ? $request['corporate_id'] :'';
         $account->update($request->validated());
 
         return redirect()->route('account.index');

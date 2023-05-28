@@ -13,17 +13,20 @@ class Kernel extends ConsoleKernel
     //     // $schedule->command('inspire')->hourly();
     // }
 
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('inspire')->hourly();
+        // $schedule->command('inspire')->hourly();
 
         // Masukkan Kode Anda Disini
         // $schedule->call(function () {
         //     Log::info('Cronjob berhasil dijalankan');
         // })->everyMinute();
-        $schedule->command('app:synchronize-moota')
-                    ->everyMinute()        
-                    ->appendOutputTo(storage_path('logs/scheduler.log'));
+        // $schedule->command('app:synchronize-moota')
+        //             ->everyMinute()        
+        //             ->appendOutputTo(storage_path('logs/scheduler.log'));
+        
+        $schedule->command('demo:cron')
+                    ->everyMinute();
 
     }
 

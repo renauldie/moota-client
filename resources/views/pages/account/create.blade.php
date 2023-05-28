@@ -60,7 +60,7 @@
 
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="password" class="block font-medium text-sm text-gray-700">Password</label>
-                            <input type="text" name="password" id="password" type="text"
+                            <input type="password" name="password" id="password" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
                                 value="{{ old('password', '') }}" />
                             @error('password')

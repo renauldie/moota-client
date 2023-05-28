@@ -34,7 +34,7 @@
                                 Number</label>
                             <input type="text" name="account_number" id="account_number" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                value="{{ old('account_number', $account->account_number) }}" />
+                                value="{{ $account->account_number }}" />
                             @error('account_number')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror

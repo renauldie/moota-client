@@ -4,13 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Validation\Rule;
 
 class AccStoreRequest extends FormRequest
 {
 
     public function rules(): array
     {
+        $acc_num = $this->request->get("account_number");
+        
         return [
             'is_active' => [
                 'integer',
@@ -18,7 +20,9 @@ class AccStoreRequest extends FormRequest
             ],
             'account_number' => [
                 'string',
-                'required'
+                'required',
+                Rule::unique('account_numbers')->ignore($acc_num, 'account_number')
+                // 'unique:account_numbers,account_number,except,id'
             ],
             'name_holder' => [
                 'string',
@@ -36,10 +40,9 @@ class AccStoreRequest extends FormRequest
                 'string',
                 'required'
             ],
-            'corporate_id' => [
-                'string',
-                'required'
-            ]
+            // 'corporate_id' => [
+            //     'string'
+            // ]
         ];
     }
 
