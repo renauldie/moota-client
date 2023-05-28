@@ -27,11 +27,5 @@ class DemoCron extends Command
     public function handle(): void
     {
         Log::info("Cron is working fine!");
-        // * * * * * cd /Users/rev/Project/moota-client && php artisan schedule:run >> /dev/null 2>&1
-
-        /*
-           Write your database logic we bellow:
-           Item::create(['name'=>'hello new']);
-        */
     }
 }

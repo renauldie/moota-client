@@ -25,8 +25,10 @@ class Kernel extends ConsoleKernel
         //             ->everyMinute()        
         //             ->appendOutputTo(storage_path('logs/scheduler.log'));
         
-        $schedule->command('demo:cron')
-                    ->everyMinute();
+        $schedule->command('demo:cron')->everyMinute()->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('sync:account_create')->everyMinute()->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('sync:account_update')->everyMinute()->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('sync:account_destroy')->everyMinute()->appendOutputTo(storage_path('logs/scheduler.log'));
 
     }
 

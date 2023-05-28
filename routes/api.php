@@ -8,5 +8,5 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/sync', [MootaIntegrationController::class, 'synchronizeAccount']);
+Route::post('/sync', [MootaIntegrationController::class, 'synchronizeAccountCreate']);
 Route::post('/auth', [MootaIntegrationController::class, 'generateToken']);

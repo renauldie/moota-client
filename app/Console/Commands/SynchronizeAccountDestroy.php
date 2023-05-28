@@ -1,19 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Console\Commands;
 
 use App\Models\AccountNumber;
 use App\Models\AccountNumberResponse;
 use App\Models\AccountNumberResponseDetail;
 use App\Models\Parameter;
+use App\Models\User;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class MootaIntegrationController extends Controller
+class SynchronizeAccountDestroy extends Command
 {
-    public function synchronizeAccountCreate() {
-        // get account user
+    protected $signature = 'sync:account_destroy';
+    protected $description = 'Command description';
+
+    public function handle(): void
+    {
+        $this->info('User has been destroyed successfully.');
+   
         $accounts = AccountNumber::all()->take(1000)->where('sch_status', 0);
         // get endpoint
         $endpoint = Parameter::where('name', 'URL_MOOTA')->first();
@@ -104,78 +111,17 @@ class MootaIntegrationController extends Controller
             } else {
                 Log::warning($account->name_holder.'exists');
             }
-        }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'synchronize'
-        ]);
-    }
-
-    public function synchronizeAccountUpdate() {
-        
-        // get account user
-        $accounts = AccountNumber::all()->take(1000)->where('sch_status', 0);
-        // get endpoint
-        $endpoint = Parameter::where('name', 'URL_MOOTA')->first();
-        // dd($endpoint->values);
-        foreach ($accounts as $account) {
-            try {
-                $pass = Crypt::decrypt($account->password);
-            } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-                continue;
-            }
-
-            $url = $endpoint->values.'/bank/store';
-            
-            $reqBody = Http::post($url, [
-                'corporate_id' => $account->corporate_id,
-                'bank_type' => $account->bank_type,
-                'username' => $account->username,
-                'password' => $pass,
-                'name_holder' => $account->name_holder,
-                'is_active' => $account->is_active,
-            ]);
-
-            Log::info('check account '.$account->name_holder);
-        
+            $this->info('User has been destroyed successfully.');
         }
     }
 
-    public function synchronizeAccountShow() {
+    // public function handle_acount() {
+    //     $accounts = AccountNumber::where('is_active', '1')->get();
 
-    }
-
-    public function synchronizeAccountIndex() {
-
-    }
-
-    private function generateToken() {
-        // get moota endpoint from db
-        $url = Parameter::where('name', 'URL_MOOTA')->get();
-        // dd($request);
-        // $request = array(
-        //     "email" => $request->email,
-        //     "password" => $request->password,
-        //     "scopes" => $request->scopes
-        // );
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $url
-        ]);
-    }
-
-    public function logout() {
-
-    }
-
-    public function mpost() {
-
-    }
-
-    public function postAccount(){
-        
-    }
-
+    //     foreach ($accounts as $acc) {
+    //         $acc->is_active = '0';
+    //         $acc->save();
+    //     }
+    // }
 }
