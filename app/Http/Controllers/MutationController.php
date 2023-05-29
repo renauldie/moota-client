@@ -48,6 +48,8 @@ class MutationController extends Controller
         $url = $endpoint->values.'/mutation?'.'type='.$type.'&bank='.$bank.'&amount='.$amount.'&description='.$description.'&note='.$note
                 .'&date='.$date.'&start_date='.$start_date.'&end_date='.$end_date.'&tag='.$tag.'&page='.$page.'&per_page='.$per_page;
 
+        
+
         $response = Http::get($url);
         
         if ($response->successful()) {

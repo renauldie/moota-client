@@ -12,82 +12,118 @@
                     @csrf
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="is_active" class="block font-medium text-sm text-gray-700">Active
+                            <label for="type" class="block font-medium text-sm text-gray-700">Active
                                 Status</label>
-                            {{-- <input type="text" name="is_active" id="is_active" type="text"
-                              class="form-input rounded-md shadow-sm mt-1 block w-full"
-                              value="{{ old('is_active', '') }}" /> --}}
 
-                            <select name="is_active" id="is_active"
+                            <select name="type" id="type"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full">
-                                <option value="1" value="{{ old('is_active' == 1 ? 'selected' : '') }}">Active
+                                <option value="CR" value="{{ old('type' == 1 ? 'selected' : '') }}">Debit
                                 </option>
-                                <option value="0" value="{{ old('is_active' == 0 ? 'selected' : '') }}">Deactive
+                                <option value="DB" value="{{ old('type' == 0 ? 'selected' : '') }}">Credit
                                 </option>
                             </select>
-                            @error('is_active')
+                            @error('type')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="account_number" class="block font-medium text-sm text-gray-700">Account
-                                Number</label>
-                            <input type="text" name="account_number" id="account_number" type="text"
+                            <label for="bank" class="block font-medium text-sm text-gray-700">Bank Token</label>
+                            <input type="text" name="bank" id="bank" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                value="{{ old('account_number', '') }}" />
-                            @error('account_number')
+                                value="{{ old('bank', '') }}" />
+                            @error('bank')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="name_holder" class="block font-medium text-sm text-gray-700">Name Holder</label>
-                            <input type="text" name="name_holder" id="name_holder" type="text"
+                            <label for="amount" class="block font-medium text-sm text-gray-700">Amount</label>
+                            <input type="number" name="amount" id="amount" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                value="{{ old('name_holder', '') }}" />
-                            @error('name_holder')
+                                value="{{ old('amount', '') }}" />
+                            @error('amount')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="username" class="block font-medium text-sm text-gray-700">Username</label>
-                            <input type="text" name="username" id="username" type="text"
+                            <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
+                            <input type="text" name="description" id="description" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                value="{{ old('username', '') }}" />
-                            @error('username')
+                                value="{{ old('description', '') }}" />
+                            @error('description')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="password" class="block font-medium text-sm text-gray-700">Password</label>
-                            <input type="password" name="password" id="password" type="text"
+                            <label for="note" class="block font-medium text-sm text-gray-700">Note</label>
+                            <input type="text" name="note" id="note" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                value="{{ old('password', '') }}" />
-                            @error('password')
+                                value="{{ old('note', '') }}" />
+                            @error('note')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="bank_type" class="block font-medium text-sm text-gray-700">Bank Type</label>
-                            <input type="text" name="bank_type" id="bank_type" type="text"
+                            <label for="date" class="block font-medium text-sm text-gray-700">Date</label>
+                            <input type="text" name="date" id="date" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                value="{{ old('bank_type', '') }}" />
-                            @error('bank_type')
+                                value="{{ old('date', '') }}" />
+                            @error('date')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="corporate_id" class="block font-medium text-sm text-gray-700">Corporate
+                            <label for="start_date" class="block font-medium text-sm text-gray-700">Start Date
                                 ID</label>
-                            <input type="text" name="corporate_id" id="corporate_id" type="text"
+                            <input type="text" name="start_date" id="start_date" type="text"
                                 class="form-input rounded-md shadow-sm mt-1 block w-full"
-                                value="{{ old('corporate_id', '') }}" />
-                            @error('corporate_id')
+                                value="{{ old('start_date', '') }}" />
+                            @error('start_date')
+                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="end_date" class="block font-medium text-sm text-gray-700">End Date</label>
+                            <input type="text" name="end_date" id="end_date" type="text"
+                                class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                value="{{ old('end_date', '') }}" />
+                            @error('end_date')
+                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="tag" class="block font-medium text-sm text-gray-700">Tag</label>
+                            <input type="text" name="tag" id="tag" type="text"
+                                class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                value="{{ old('tag', '') }}" />
+                            @error('tag')
+                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="page" class="block font-medium text-sm text-gray-700">Page</label>
+                            <input type="text" name="page" id="page" type="text"
+                                class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                value="{{ old('page', '') }}" />
+                            @error('page')
+                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="per_page" class="block font-medium text-sm text-gray-700">Per Page</label>
+                            <input type="text" name="per_page" id="per_page" type="text"
+                                class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                value="{{ old('per_page', '') }}" />
+                            @error('per_page')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
