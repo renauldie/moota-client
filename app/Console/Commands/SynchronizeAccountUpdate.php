@@ -48,18 +48,19 @@ class SynchronizeAccountUpdate extends Command
 
             Log::info('check account '.$account->name_holder);
 
+            $token = env('MOOTA_TOKEN_VALUE');
             // // with headers 
-            // $response = Http::withHeaders([
-            //     'Authorization' => 'Bearer {your_token}',
-            //     'Content-Type' => 'application/json',
-            // ])->post($url, [
-            //     $reqBody
-            // ]);
-
-            // no headers
-            $response = Http::post($url, [
+            $response = Http::withHeaders([
+                'Authorization' => $token,
+                'Content-Type' => 'application/json',
+            ])->post($url, [
                 $reqBody
             ]);
+
+            // // no headers
+            // $response = Http::post($url, [
+            //     $reqBody
+            // ]);
 
             // save to db
             if ($response->successful()) {
