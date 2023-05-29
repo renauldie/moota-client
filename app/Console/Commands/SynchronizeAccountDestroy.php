@@ -3,8 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\AccountNumber;
-use App\Models\AccountNumberResponse;
-use App\Models\AccountNumberResponseDetail;
 use App\Models\Parameter;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -19,8 +17,6 @@ class SynchronizeAccountDestroy extends Command
 
     public function handle(): void
     {
-        $this->info('User has been destroyed successfully.');
-   
         // 0 create
         // 1 read from moota
         // 7 destroy
@@ -40,16 +36,7 @@ class SynchronizeAccountDestroy extends Command
                 continue;
             }
 
-            $url = $endpoint->values.'/bank'.$account->account_response->detail->bank_id.'/destroy';
-
-            // $reqBody = Http::post($url, [
-            //     'corporate_id' => $account->corporate_id,
-            //     'bank_type' => $account->bank_type,
-            //     'username' => $account->username,
-            //     'password' => $pass,
-            //     'name_holder' => $account->name_holder,
-            //     'is_active' => $account->is_active,
-            // ]);
+            $url = $endpoint->values.'/bank/'.$account->account_response->detail->bank_id.'/destroy';
 
             Log::info('check account '.$account->name_holder);
 
@@ -65,11 +52,11 @@ class SynchronizeAccountDestroy extends Command
             // save to db
             if ($response->successful()) {
                 Log::info($account->name_holder.'ok'.$response->successful());
-                $data = $response->json();
-
                 // update status_sch
-                $account->sch_status = 1;
-                $account->save();
+                // $account->sch_status = 1;
+                // $account->save();
+
+                $account->delete();
             } else {
                 Log::warning($account->name_holder.'exists');
             }

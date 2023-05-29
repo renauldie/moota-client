@@ -18,4 +18,6 @@ Route::middleware([
     })->name('dashboard');
     
     Route::resource('account', App\Http\Controllers\AccountNumberController::class);
+
+    Route::resource('mutation', App\Http\Controllers\MutationController::class);
 });

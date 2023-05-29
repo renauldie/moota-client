@@ -14,7 +14,8 @@ class AccountNumberController extends Controller
     public function index()
     {
         $today = Carbon::now()->format('Y-m-d');
-        $accounts = AccountNumber::whereDate('created_at', $today)->get();
+        // $accounts = AccountNumber::whereDate('created_at', $today)->get();
+        $accounts = AccountNumber::where('sch_status', '!=', 7)->get();
 
         return view('pages.account.index', compact('accounts'));
     }
@@ -49,14 +50,21 @@ class AccountNumberController extends Controller
     public function update(AccStoreRequest $request, AccountNumber $account)
     {
         $request['corporate_id'] = $request['corporate_id'] ? $request['corporate_id'] :'';
+        // $request['sch_status'] = 5;
+        // dd($request->all());
         $account->update($request->validated());
-
+        
+        $account->sch_status = 5;
+        $account->save();
         return redirect()->route('account.index');
     }
 
     public function destroy(AccountNumber $account)
     {
-        $account->delete();
+
+        $account->sch_status = 7;
+        $account->save();
+        // $account->delete();
 
         return redirect()->route('account.index');
     }

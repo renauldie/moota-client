@@ -35,6 +35,8 @@ class SynchronizeAccountUpdate extends Command
 
             $url = $endpoint->values.'/bank/update/'.$account->account_response->detail->bank_id;
 
+            $this->info($url);
+
             $reqBody = Http::post($url, [
                 'corporate_id' => $account->corporate_id,
                 'bank_type' => $account->bank_type,
