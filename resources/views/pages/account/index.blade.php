@@ -11,9 +11,11 @@
                 <a href="{{ route('account.create') }}"
                     class="py-2 px-2 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Add Account</a>
                 <div class="flex">
-                    <input type="date" placeholder="Search" id="myDateInput"
+                    {{-- <form method="post" action="{{ route('account.show', ['date' ]) }}">
+                        <input type="date" placeholder="Search" id="myDateInput" name="date"
                         class="py-2 px-4 rounded-l-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
-                    <button class="py-2 px-4 bg-gray-600 hover:bg-gray-600 text-white rounded-r-md">Search</button>
+                        <button type="submit" class="py-2 px-4 bg-gray-600 hover:bg-gray-600 text-white rounded-r-md">Search</button>
+                    </form> --}}
                 </div>
             </div>
 
@@ -27,7 +29,7 @@
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name Holder</th>
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Username</th>
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Bank_type</th>
-                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Corporate ID</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Account Number</th>
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Action</th>
                             </tr>
                         </thead>
@@ -36,16 +38,24 @@
                             @foreach ($accounts as $account)
                                 <tr class="hover:bg-gray-50">
                                     <td class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                                        <span class="rounded-full px-2 py-1 text-xs font-semibold text-green-600">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                                            Active
-                                        </span>
+                                        @if ($account->is_active == 1)
+                                            <span class="rounded-full px-2 py-1 text-xs font-semibold text-green-600">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                                Active
+                                            </span>
+                                        @else
+                                            <span class="rounded-full px-2 py-1 text-xs font-semibold text-red-600">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
+                                                Deactive
+                                            </span>
+                                        @endif
+
                                     </td>
                                     {{-- @dd($account) --}}
                                     <td class="px-6 py-4">{{ $account->name_holder }}</td>
                                     <td class="px-6 py-4">{{ $account->username }}</td>
                                     <td class="px-6 py-4">{{ $account->bank_type }}</td>
-                                    <td class="px-6 py-4">{{ $account->corporate_id }}</td>
+                                    <td class="px-6 py-4">{{ $account->account_number }}</td>
                                     <td class="px-6 py-4">
                                         <div class="flex justify-end gap-4">
                                             <form class="inline-block" action="{{ route('account.destroy', $account->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">

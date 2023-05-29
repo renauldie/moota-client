@@ -13,9 +13,9 @@ class AccountNumberController extends Controller
 {
     public function index()
     {
-        $today = Carbon::now()->format('Y-m-d');
+        $today = Carbon::now()->subDays(30);
         // $accounts = AccountNumber::whereDate('created_at', $today)->get();
-        $accounts = AccountNumber::where('sch_status', '!=', 7)->get();
+        $accounts = AccountNumber::where('sch_status', '!=', 7)->where('created_at', '>=', $today)->get();
 
         return view('pages.account.index', compact('accounts'));
     }
