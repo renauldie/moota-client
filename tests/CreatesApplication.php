@@ -10,8 +10,6 @@ trait CreatesApplication
     /**
      * Creates the application.
      */
-
-    // testing only merge
     public function createApplication(): Application
     {
         $app = require __DIR__.'/../bootstrap/app.php';
